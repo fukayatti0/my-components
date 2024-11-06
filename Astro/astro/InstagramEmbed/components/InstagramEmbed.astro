@@ -1,0 +1,57 @@
+---
+import type { InstagramEmbedProps } from '../../types/social-embed';
+
+interface Props extends InstagramEmbedProps {}
+
+const {
+  postUrl,
+  caption = '',
+  hideCaption = false,
+  maxWidth = 540,
+} = Astro.props;
+
+// Instagram投稿URLからポストIDを抽出する関数
+const getPostIdFromUrl = (url: string): string => {
+  const matches = url.match(/\/p\/([^\/]+)/);
+  return matches ? matches[1] : '';
+};
+
+const postId = getPostIdFromUrl(postUrl);
+---
+
+<div class="instagram-embed" style={`max-width: ${maxWidth}px;`}>
+  <script is:inline>
+    window.instgrm = window.instgrm || {};
+    window.instgrm.Embeds = window.instgrm.Embeds || {};
+    window.instgrm.Embeds.process();
+  </script>
+  
+  <blockquote 
+    class="instagram-media" 
+    data-instgrm-permalink={postUrl}
+    data-instgrm-version="14"
+    data-instgrm-captioned={!hideCaption}
+    style={`
+      background:#FFF; 
+      border:0; 
+      border-radius:3px; 
+      box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); 
+      margin: 1px; 
+      max-width:100%; 
+      min-width:326px; 
+      padding:0; 
+      width:99.375%`}
+  >
+    {caption && <p>{caption}</p>}
+  </blockquote>
+</div>
+
+<script async defer src="//www.instagram.com/embed.js"></script>
+
+<style>
+  .instagram-embed {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+</style>

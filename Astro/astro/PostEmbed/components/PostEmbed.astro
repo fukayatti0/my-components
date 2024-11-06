@@ -1,0 +1,26 @@
+---
+import type { TwitterEmbedProps } from '../../types/social-embed';
+
+interface Props extends TwitterEmbedProps {}
+
+const {
+  tweetUrl,
+  theme = 'light',
+  maxWidth = 540,
+} = Astro.props;
+---
+
+<div class="twitter-embed" style={`max-width: ${maxWidth}px;`} data-theme={theme}>
+  <blockquote class="twitter-tweet">
+    <a href={tweetUrl}></a>
+  </blockquote>
+</div>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<style>
+  .twitter-embed {
+    width: 100%;
+    margin: 0 auto;
+  }
+</style>
